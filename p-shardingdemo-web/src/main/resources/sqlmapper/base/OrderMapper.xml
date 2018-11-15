@@ -1,0 +1,1259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeff.template.mapper.base.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.jeff.template.model.base.Order">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="sharding_key" jdbcType="VARCHAR" property="shardingKey" />
+    <result column="channel" jdbcType="BIGINT" property="channel" />
+    <result column="plantform" jdbcType="BIGINT" property="plantform" />
+    <result column="client" jdbcType="BIGINT" property="client" />
+    <result column="serial_number" jdbcType="VARCHAR" property="serialNumber" />
+    <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="market_id" jdbcType="VARCHAR" property="marketId" />
+    <result column="market_name" jdbcType="VARCHAR" property="marketName" />
+    <result column="shop_id" jdbcType="VARCHAR" property="shopId" />
+    <result column="shop_name" jdbcType="VARCHAR" property="shopName" />
+    <result column="total_amount" jdbcType="DECIMAL" property="totalAmount" />
+    <result column="promotion_total_amount" jdbcType="DECIMAL" property="promotionTotalAmount" />
+    <result column="excepted_change_amount" jdbcType="DECIMAL" property="exceptedChangeAmount" />
+    <result column="payable_amount" jdbcType="DECIMAL" property="payableAmount" />
+    <result column="service_amount" jdbcType="DECIMAL" property="serviceAmount" />
+    <result column="paid_amount" jdbcType="DECIMAL" property="paidAmount" />
+    <result column="refunded_amount" jdbcType="DECIMAL" property="refundedAmount" />
+    <result column="create_user_id" jdbcType="VARCHAR" property="createUserId" />
+    <result column="create_user_name" jdbcType="VARCHAR" property="createUserName" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="last_update_user_id" jdbcType="VARCHAR" property="lastUpdateUserId" />
+    <result column="last_update_user_name" jdbcType="VARCHAR" property="lastUpdateUserName" />
+    <result column="last_update_date" jdbcType="TIMESTAMP" property="lastUpdateDate" />
+    <result column="area_id" jdbcType="BIGINT" property="areaId" />
+    <result column="area_name" jdbcType="VARCHAR" property="areaName" />
+    <result column="purchaser_id" jdbcType="VARCHAR" property="purchaserId" />
+    <result column="purchaser_name" jdbcType="VARCHAR" property="purchaserName" />
+    <result column="receiver_id" jdbcType="VARCHAR" property="receiverId" />
+    <result column="receiver_name" jdbcType="VARCHAR" property="receiverName" />
+    <result column="receiver_mobile" jdbcType="VARCHAR" property="receiverMobile" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="carriage" jdbcType="DECIMAL" property="carriage" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
+    <result column="reference_id" jdbcType="BIGINT" property="referenceId" />
+    <result column="deliver_type" jdbcType="INTEGER" property="deliverType" />
+    <result column="deliver_status" jdbcType="INTEGER" property="deliverStatus" />
+    <result column="refund_reason" jdbcType="VARCHAR" property="refundReason" />
+    <result column="can_refund" jdbcType="BIT" property="canRefund" />
+    <result column="contract_number" jdbcType="VARCHAR" property="contractNumber" />
+    <result column="serial_code" jdbcType="VARCHAR" property="serialCode" />
+    <result column="serial_name" jdbcType="VARCHAR" property="serialName" />
+    <result column="first_payment" jdbcType="DECIMAL" property="firstPayment" />
+    <result column="agreed_delivery_date" jdbcType="TIMESTAMP" property="agreedDeliveryDate" />
+    <result column="dealer_id" jdbcType="VARCHAR" property="dealerId" />
+    <result column="dealer_name" jdbcType="VARCHAR" property="dealerName" />
+    <result column="real_deliver_date" jdbcType="TIMESTAMP" property="realDeliverDate" />
+    <result column="real_received_date" jdbcType="TIMESTAMP" property="realReceivedDate" />
+    <result column="province_id" jdbcType="VARCHAR" property="provinceId" />
+    <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
+    <result column="city_id" jdbcType="VARCHAR" property="cityId" />
+    <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+    <result column="district_id" jdbcType="VARCHAR" property="districtId" />
+    <result column="district_name" jdbcType="VARCHAR" property="districtName" />
+    <result column="is_stage" jdbcType="BIT" property="isStage" />
+    <result column="settlement_status" jdbcType="INTEGER" property="settlementStatus" />
+    <result column="settlement_date" jdbcType="TIMESTAMP" property="settlementDate" />
+    <result column="settlement_amount" jdbcType="DECIMAL" property="settlementAmount" />
+    <result column="planed_settlement_date" jdbcType="TIMESTAMP" property="planedSettlementDate" />
+    <result column="review_status" jdbcType="INTEGER" property="reviewStatus" />
+    <result column="refund_status" jdbcType="INTEGER" property="refundStatus" />
+    <result column="after_sale_status" jdbcType="INTEGER" property="afterSaleStatus" />
+    <result column="oms_uuid" jdbcType="VARCHAR" property="omsUuid" />
+    <result column="review_date" jdbcType="TIMESTAMP" property="reviewDate" />
+    <result column="review_id" jdbcType="VARCHAR" property="reviewId" />
+    <result column="return_visit_status" jdbcType="VARCHAR" property="returnVisitStatus" />
+    <result column="extend_status" jdbcType="BIT" property="extendStatus" />
+    <result column="extend_type" jdbcType="BIT" property="extendType" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, sharding_key, channel, plantform, client, serial_number, order_status, order_type, 
+    market_id, market_name, shop_id, shop_name, total_amount, promotion_total_amount, 
+    excepted_change_amount, payable_amount, service_amount, paid_amount, refunded_amount, 
+    create_user_id, create_user_name, create_date, last_update_user_id, last_update_user_name, 
+    last_update_date, area_id, area_name, purchaser_id, purchaser_name, receiver_id, 
+    receiver_name, receiver_mobile, mobile, address, carriage, remark, delete_flag, reference_id, 
+    deliver_type, deliver_status, refund_reason, can_refund, contract_number, serial_code, 
+    serial_name, first_payment, agreed_delivery_date, dealer_id, dealer_name, real_deliver_date, 
+    real_received_date, province_id, province_name, city_id, city_name, district_id, 
+    district_name, is_stage, settlement_status, settlement_date, settlement_amount, planed_settlement_date, 
+    review_status, refund_status, after_sale_status, oms_uuid, review_date, review_id, 
+    return_visit_status, extend_status, extend_type
+  </sql>
+  <select id="selectByExample" parameterType="com.jeff.template.model.base.OrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jeff.template.model.base.OrderExample">
+    delete from t_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyProperty="id" parameterType="com.jeff.template.model.base.Order" useGeneratedKeys="true">
+    insert into t_order (id, sharding_key, channel, 
+      plantform, client, serial_number, 
+      order_status, order_type, market_id, 
+      market_name, shop_id, shop_name, 
+      total_amount, promotion_total_amount, excepted_change_amount, 
+      payable_amount, service_amount, paid_amount, 
+      refunded_amount, create_user_id, create_user_name, 
+      create_date, last_update_user_id, last_update_user_name, 
+      last_update_date, area_id, area_name, 
+      purchaser_id, purchaser_name, receiver_id, 
+      receiver_name, receiver_mobile, mobile, 
+      address, carriage, remark, 
+      delete_flag, reference_id, deliver_type, 
+      deliver_status, refund_reason, can_refund, 
+      contract_number, serial_code, serial_name, 
+      first_payment, agreed_delivery_date, dealer_id, 
+      dealer_name, real_deliver_date, real_received_date, 
+      province_id, province_name, city_id, 
+      city_name, district_id, district_name, 
+      is_stage, settlement_status, settlement_date, 
+      settlement_amount, planed_settlement_date, 
+      review_status, refund_status, after_sale_status, 
+      oms_uuid, review_date, review_id, 
+      return_visit_status, extend_status, extend_type
+      )
+    values (#{id,jdbcType=BIGINT}, #{shardingKey,jdbcType=VARCHAR}, #{channel,jdbcType=BIGINT}, 
+      #{plantform,jdbcType=BIGINT}, #{client,jdbcType=BIGINT}, #{serialNumber,jdbcType=VARCHAR}, 
+      #{orderStatus,jdbcType=INTEGER}, #{orderType,jdbcType=INTEGER}, #{marketId,jdbcType=VARCHAR}, 
+      #{marketName,jdbcType=VARCHAR}, #{shopId,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR}, 
+      #{totalAmount,jdbcType=DECIMAL}, #{promotionTotalAmount,jdbcType=DECIMAL}, #{exceptedChangeAmount,jdbcType=DECIMAL}, 
+      #{payableAmount,jdbcType=DECIMAL}, #{serviceAmount,jdbcType=DECIMAL}, #{paidAmount,jdbcType=DECIMAL}, 
+      #{refundedAmount,jdbcType=DECIMAL}, #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{lastUpdateUserId,jdbcType=VARCHAR}, #{lastUpdateUserName,jdbcType=VARCHAR}, 
+      #{lastUpdateDate,jdbcType=TIMESTAMP}, #{areaId,jdbcType=BIGINT}, #{areaName,jdbcType=VARCHAR}, 
+      #{purchaserId,jdbcType=VARCHAR}, #{purchaserName,jdbcType=VARCHAR}, #{receiverId,jdbcType=VARCHAR}, 
+      #{receiverName,jdbcType=VARCHAR}, #{receiverMobile,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{carriage,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, 
+      #{deleteFlag,jdbcType=BIT}, #{referenceId,jdbcType=BIGINT}, #{deliverType,jdbcType=INTEGER}, 
+      #{deliverStatus,jdbcType=INTEGER}, #{refundReason,jdbcType=VARCHAR}, #{canRefund,jdbcType=BIT}, 
+      #{contractNumber,jdbcType=VARCHAR}, #{serialCode,jdbcType=VARCHAR}, #{serialName,jdbcType=VARCHAR}, 
+      #{firstPayment,jdbcType=DECIMAL}, #{agreedDeliveryDate,jdbcType=TIMESTAMP}, #{dealerId,jdbcType=VARCHAR}, 
+      #{dealerName,jdbcType=VARCHAR}, #{realDeliverDate,jdbcType=TIMESTAMP}, #{realReceivedDate,jdbcType=TIMESTAMP}, 
+      #{provinceId,jdbcType=VARCHAR}, #{provinceName,jdbcType=VARCHAR}, #{cityId,jdbcType=VARCHAR}, 
+      #{cityName,jdbcType=VARCHAR}, #{districtId,jdbcType=VARCHAR}, #{districtName,jdbcType=VARCHAR}, 
+      #{isStage,jdbcType=BIT}, #{settlementStatus,jdbcType=INTEGER}, #{settlementDate,jdbcType=TIMESTAMP}, 
+      #{settlementAmount,jdbcType=DECIMAL}, #{planedSettlementDate,jdbcType=TIMESTAMP}, 
+      #{reviewStatus,jdbcType=INTEGER}, #{refundStatus,jdbcType=INTEGER}, #{afterSaleStatus,jdbcType=INTEGER}, 
+      #{omsUuid,jdbcType=VARCHAR}, #{reviewDate,jdbcType=TIMESTAMP}, #{reviewId,jdbcType=VARCHAR}, 
+      #{returnVisitStatus,jdbcType=VARCHAR}, #{extendStatus,jdbcType=BIT}, #{extendType,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" keyProperty="id" parameterType="com.jeff.template.model.base.Order" useGeneratedKeys="true">
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="shardingKey != null">
+        sharding_key,
+      </if>
+      <if test="channel != null">
+        channel,
+      </if>
+      <if test="plantform != null">
+        plantform,
+      </if>
+      <if test="client != null">
+        client,
+      </if>
+      <if test="serialNumber != null">
+        serial_number,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="marketId != null">
+        market_id,
+      </if>
+      <if test="marketName != null">
+        market_name,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="shopName != null">
+        shop_name,
+      </if>
+      <if test="totalAmount != null">
+        total_amount,
+      </if>
+      <if test="promotionTotalAmount != null">
+        promotion_total_amount,
+      </if>
+      <if test="exceptedChangeAmount != null">
+        excepted_change_amount,
+      </if>
+      <if test="payableAmount != null">
+        payable_amount,
+      </if>
+      <if test="serviceAmount != null">
+        service_amount,
+      </if>
+      <if test="paidAmount != null">
+        paid_amount,
+      </if>
+      <if test="refundedAmount != null">
+        refunded_amount,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="createUserName != null">
+        create_user_name,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="lastUpdateUserId != null">
+        last_update_user_id,
+      </if>
+      <if test="lastUpdateUserName != null">
+        last_update_user_name,
+      </if>
+      <if test="lastUpdateDate != null">
+        last_update_date,
+      </if>
+      <if test="areaId != null">
+        area_id,
+      </if>
+      <if test="areaName != null">
+        area_name,
+      </if>
+      <if test="purchaserId != null">
+        purchaser_id,
+      </if>
+      <if test="purchaserName != null">
+        purchaser_name,
+      </if>
+      <if test="receiverId != null">
+        receiver_id,
+      </if>
+      <if test="receiverName != null">
+        receiver_name,
+      </if>
+      <if test="receiverMobile != null">
+        receiver_mobile,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="carriage != null">
+        carriage,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
+      <if test="referenceId != null">
+        reference_id,
+      </if>
+      <if test="deliverType != null">
+        deliver_type,
+      </if>
+      <if test="deliverStatus != null">
+        deliver_status,
+      </if>
+      <if test="refundReason != null">
+        refund_reason,
+      </if>
+      <if test="canRefund != null">
+        can_refund,
+      </if>
+      <if test="contractNumber != null">
+        contract_number,
+      </if>
+      <if test="serialCode != null">
+        serial_code,
+      </if>
+      <if test="serialName != null">
+        serial_name,
+      </if>
+      <if test="firstPayment != null">
+        first_payment,
+      </if>
+      <if test="agreedDeliveryDate != null">
+        agreed_delivery_date,
+      </if>
+      <if test="dealerId != null">
+        dealer_id,
+      </if>
+      <if test="dealerName != null">
+        dealer_name,
+      </if>
+      <if test="realDeliverDate != null">
+        real_deliver_date,
+      </if>
+      <if test="realReceivedDate != null">
+        real_received_date,
+      </if>
+      <if test="provinceId != null">
+        province_id,
+      </if>
+      <if test="provinceName != null">
+        province_name,
+      </if>
+      <if test="cityId != null">
+        city_id,
+      </if>
+      <if test="cityName != null">
+        city_name,
+      </if>
+      <if test="districtId != null">
+        district_id,
+      </if>
+      <if test="districtName != null">
+        district_name,
+      </if>
+      <if test="isStage != null">
+        is_stage,
+      </if>
+      <if test="settlementStatus != null">
+        settlement_status,
+      </if>
+      <if test="settlementDate != null">
+        settlement_date,
+      </if>
+      <if test="settlementAmount != null">
+        settlement_amount,
+      </if>
+      <if test="planedSettlementDate != null">
+        planed_settlement_date,
+      </if>
+      <if test="reviewStatus != null">
+        review_status,
+      </if>
+      <if test="refundStatus != null">
+        refund_status,
+      </if>
+      <if test="afterSaleStatus != null">
+        after_sale_status,
+      </if>
+      <if test="omsUuid != null">
+        oms_uuid,
+      </if>
+      <if test="reviewDate != null">
+        review_date,
+      </if>
+      <if test="reviewId != null">
+        review_id,
+      </if>
+      <if test="returnVisitStatus != null">
+        return_visit_status,
+      </if>
+      <if test="extendStatus != null">
+        extend_status,
+      </if>
+      <if test="extendType != null">
+        extend_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="shardingKey != null">
+        #{shardingKey,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null">
+        #{channel,jdbcType=BIGINT},
+      </if>
+      <if test="plantform != null">
+        #{plantform,jdbcType=BIGINT},
+      </if>
+      <if test="client != null">
+        #{client,jdbcType=BIGINT},
+      </if>
+      <if test="serialNumber != null">
+        #{serialNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="marketId != null">
+        #{marketId,jdbcType=VARCHAR},
+      </if>
+      <if test="marketName != null">
+        #{marketName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        #{shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopName != null">
+        #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="totalAmount != null">
+        #{totalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="promotionTotalAmount != null">
+        #{promotionTotalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="exceptedChangeAmount != null">
+        #{exceptedChangeAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="payableAmount != null">
+        #{payableAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceAmount != null">
+        #{serviceAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="paidAmount != null">
+        #{paidAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="refundedAmount != null">
+        #{refundedAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserName != null">
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateUserId != null">
+        #{lastUpdateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateUserName != null">
+        #{lastUpdateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateDate != null">
+        #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="areaId != null">
+        #{areaId,jdbcType=BIGINT},
+      </if>
+      <if test="areaName != null">
+        #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaserId != null">
+        #{purchaserId,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaserName != null">
+        #{purchaserName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null">
+        #{receiverId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverName != null">
+        #{receiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverMobile != null">
+        #{receiverMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="carriage != null">
+        #{carriage,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="referenceId != null">
+        #{referenceId,jdbcType=BIGINT},
+      </if>
+      <if test="deliverType != null">
+        #{deliverType,jdbcType=INTEGER},
+      </if>
+      <if test="deliverStatus != null">
+        #{deliverStatus,jdbcType=INTEGER},
+      </if>
+      <if test="refundReason != null">
+        #{refundReason,jdbcType=VARCHAR},
+      </if>
+      <if test="canRefund != null">
+        #{canRefund,jdbcType=BIT},
+      </if>
+      <if test="contractNumber != null">
+        #{contractNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="serialCode != null">
+        #{serialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="serialName != null">
+        #{serialName,jdbcType=VARCHAR},
+      </if>
+      <if test="firstPayment != null">
+        #{firstPayment,jdbcType=DECIMAL},
+      </if>
+      <if test="agreedDeliveryDate != null">
+        #{agreedDeliveryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dealerId != null">
+        #{dealerId,jdbcType=VARCHAR},
+      </if>
+      <if test="dealerName != null">
+        #{dealerName,jdbcType=VARCHAR},
+      </if>
+      <if test="realDeliverDate != null">
+        #{realDeliverDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realReceivedDate != null">
+        #{realReceivedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="provinceId != null">
+        #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceName != null">
+        #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null">
+        #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null">
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="districtId != null">
+        #{districtId,jdbcType=VARCHAR},
+      </if>
+      <if test="districtName != null">
+        #{districtName,jdbcType=VARCHAR},
+      </if>
+      <if test="isStage != null">
+        #{isStage,jdbcType=BIT},
+      </if>
+      <if test="settlementStatus != null">
+        #{settlementStatus,jdbcType=INTEGER},
+      </if>
+      <if test="settlementDate != null">
+        #{settlementDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="settlementAmount != null">
+        #{settlementAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="planedSettlementDate != null">
+        #{planedSettlementDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reviewStatus != null">
+        #{reviewStatus,jdbcType=INTEGER},
+      </if>
+      <if test="refundStatus != null">
+        #{refundStatus,jdbcType=INTEGER},
+      </if>
+      <if test="afterSaleStatus != null">
+        #{afterSaleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="omsUuid != null">
+        #{omsUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewDate != null">
+        #{reviewDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reviewId != null">
+        #{reviewId,jdbcType=VARCHAR},
+      </if>
+      <if test="returnVisitStatus != null">
+        #{returnVisitStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="extendStatus != null">
+        #{extendStatus,jdbcType=BIT},
+      </if>
+      <if test="extendType != null">
+        #{extendType,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jeff.template.model.base.OrderExample" resultType="java.lang.Long">
+    select count(*) from t_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_order
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.shardingKey != null">
+        sharding_key = #{record.shardingKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channel != null">
+        channel = #{record.channel,jdbcType=BIGINT},
+      </if>
+      <if test="record.plantform != null">
+        plantform = #{record.plantform,jdbcType=BIGINT},
+      </if>
+      <if test="record.client != null">
+        client = #{record.client,jdbcType=BIGINT},
+      </if>
+      <if test="record.serialNumber != null">
+        serial_number = #{record.serialNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderStatus != null">
+        order_status = #{record.orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderType != null">
+        order_type = #{record.orderType,jdbcType=INTEGER},
+      </if>
+      <if test="record.marketId != null">
+        market_id = #{record.marketId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.marketName != null">
+        market_name = #{record.marketName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopId != null">
+        shop_id = #{record.shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopName != null">
+        shop_name = #{record.shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalAmount != null">
+        total_amount = #{record.totalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.promotionTotalAmount != null">
+        promotion_total_amount = #{record.promotionTotalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.exceptedChangeAmount != null">
+        excepted_change_amount = #{record.exceptedChangeAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.payableAmount != null">
+        payable_amount = #{record.payableAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.serviceAmount != null">
+        service_amount = #{record.serviceAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.paidAmount != null">
+        paid_amount = #{record.paidAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.refundedAmount != null">
+        refunded_amount = #{record.refundedAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createUserId != null">
+        create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserName != null">
+        create_user_name = #{record.createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastUpdateUserId != null">
+        last_update_user_id = #{record.lastUpdateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastUpdateUserName != null">
+        last_update_user_name = #{record.lastUpdateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastUpdateDate != null">
+        last_update_date = #{record.lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.areaId != null">
+        area_id = #{record.areaId,jdbcType=BIGINT},
+      </if>
+      <if test="record.areaName != null">
+        area_name = #{record.areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.purchaserId != null">
+        purchaser_id = #{record.purchaserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.purchaserName != null">
+        purchaser_name = #{record.purchaserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiverId != null">
+        receiver_id = #{record.receiverId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiverName != null">
+        receiver_name = #{record.receiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiverMobile != null">
+        receiver_mobile = #{record.receiverMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carriage != null">
+        carriage = #{record.carriage,jdbcType=DECIMAL},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deleteFlag != null">
+        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="record.referenceId != null">
+        reference_id = #{record.referenceId,jdbcType=BIGINT},
+      </if>
+      <if test="record.deliverType != null">
+        deliver_type = #{record.deliverType,jdbcType=INTEGER},
+      </if>
+      <if test="record.deliverStatus != null">
+        deliver_status = #{record.deliverStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.refundReason != null">
+        refund_reason = #{record.refundReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.canRefund != null">
+        can_refund = #{record.canRefund,jdbcType=BIT},
+      </if>
+      <if test="record.contractNumber != null">
+        contract_number = #{record.contractNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serialCode != null">
+        serial_code = #{record.serialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serialName != null">
+        serial_name = #{record.serialName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.firstPayment != null">
+        first_payment = #{record.firstPayment,jdbcType=DECIMAL},
+      </if>
+      <if test="record.agreedDeliveryDate != null">
+        agreed_delivery_date = #{record.agreedDeliveryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dealerId != null">
+        dealer_id = #{record.dealerId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dealerName != null">
+        dealer_name = #{record.dealerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realDeliverDate != null">
+        real_deliver_date = #{record.realDeliverDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.realReceivedDate != null">
+        real_received_date = #{record.realReceivedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.provinceId != null">
+        province_id = #{record.provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provinceName != null">
+        province_name = #{record.provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityId != null">
+        city_id = #{record.cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityName != null">
+        city_name = #{record.cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.districtId != null">
+        district_id = #{record.districtId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.districtName != null">
+        district_name = #{record.districtName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isStage != null">
+        is_stage = #{record.isStage,jdbcType=BIT},
+      </if>
+      <if test="record.settlementStatus != null">
+        settlement_status = #{record.settlementStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.settlementDate != null">
+        settlement_date = #{record.settlementDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.settlementAmount != null">
+        settlement_amount = #{record.settlementAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.planedSettlementDate != null">
+        planed_settlement_date = #{record.planedSettlementDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.reviewStatus != null">
+        review_status = #{record.reviewStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.refundStatus != null">
+        refund_status = #{record.refundStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.afterSaleStatus != null">
+        after_sale_status = #{record.afterSaleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.omsUuid != null">
+        oms_uuid = #{record.omsUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reviewDate != null">
+        review_date = #{record.reviewDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.reviewId != null">
+        review_id = #{record.reviewId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.returnVisitStatus != null">
+        return_visit_status = #{record.returnVisitStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.extendStatus != null">
+        extend_status = #{record.extendStatus,jdbcType=BIT},
+      </if>
+      <if test="record.extendType != null">
+        extend_type = #{record.extendType,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_order
+    set id = #{record.id,jdbcType=BIGINT},
+      sharding_key = #{record.shardingKey,jdbcType=VARCHAR},
+      channel = #{record.channel,jdbcType=BIGINT},
+      plantform = #{record.plantform,jdbcType=BIGINT},
+      client = #{record.client,jdbcType=BIGINT},
+      serial_number = #{record.serialNumber,jdbcType=VARCHAR},
+      order_status = #{record.orderStatus,jdbcType=INTEGER},
+      order_type = #{record.orderType,jdbcType=INTEGER},
+      market_id = #{record.marketId,jdbcType=VARCHAR},
+      market_name = #{record.marketName,jdbcType=VARCHAR},
+      shop_id = #{record.shopId,jdbcType=VARCHAR},
+      shop_name = #{record.shopName,jdbcType=VARCHAR},
+      total_amount = #{record.totalAmount,jdbcType=DECIMAL},
+      promotion_total_amount = #{record.promotionTotalAmount,jdbcType=DECIMAL},
+      excepted_change_amount = #{record.exceptedChangeAmount,jdbcType=DECIMAL},
+      payable_amount = #{record.payableAmount,jdbcType=DECIMAL},
+      service_amount = #{record.serviceAmount,jdbcType=DECIMAL},
+      paid_amount = #{record.paidAmount,jdbcType=DECIMAL},
+      refunded_amount = #{record.refundedAmount,jdbcType=DECIMAL},
+      create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      create_user_name = #{record.createUserName,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      last_update_user_id = #{record.lastUpdateUserId,jdbcType=VARCHAR},
+      last_update_user_name = #{record.lastUpdateUserName,jdbcType=VARCHAR},
+      last_update_date = #{record.lastUpdateDate,jdbcType=TIMESTAMP},
+      area_id = #{record.areaId,jdbcType=BIGINT},
+      area_name = #{record.areaName,jdbcType=VARCHAR},
+      purchaser_id = #{record.purchaserId,jdbcType=VARCHAR},
+      purchaser_name = #{record.purchaserName,jdbcType=VARCHAR},
+      receiver_id = #{record.receiverId,jdbcType=VARCHAR},
+      receiver_name = #{record.receiverName,jdbcType=VARCHAR},
+      receiver_mobile = #{record.receiverMobile,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      carriage = #{record.carriage,jdbcType=DECIMAL},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      reference_id = #{record.referenceId,jdbcType=BIGINT},
+      deliver_type = #{record.deliverType,jdbcType=INTEGER},
+      deliver_status = #{record.deliverStatus,jdbcType=INTEGER},
+      refund_reason = #{record.refundReason,jdbcType=VARCHAR},
+      can_refund = #{record.canRefund,jdbcType=BIT},
+      contract_number = #{record.contractNumber,jdbcType=VARCHAR},
+      serial_code = #{record.serialCode,jdbcType=VARCHAR},
+      serial_name = #{record.serialName,jdbcType=VARCHAR},
+      first_payment = #{record.firstPayment,jdbcType=DECIMAL},
+      agreed_delivery_date = #{record.agreedDeliveryDate,jdbcType=TIMESTAMP},
+      dealer_id = #{record.dealerId,jdbcType=VARCHAR},
+      dealer_name = #{record.dealerName,jdbcType=VARCHAR},
+      real_deliver_date = #{record.realDeliverDate,jdbcType=TIMESTAMP},
+      real_received_date = #{record.realReceivedDate,jdbcType=TIMESTAMP},
+      province_id = #{record.provinceId,jdbcType=VARCHAR},
+      province_name = #{record.provinceName,jdbcType=VARCHAR},
+      city_id = #{record.cityId,jdbcType=VARCHAR},
+      city_name = #{record.cityName,jdbcType=VARCHAR},
+      district_id = #{record.districtId,jdbcType=VARCHAR},
+      district_name = #{record.districtName,jdbcType=VARCHAR},
+      is_stage = #{record.isStage,jdbcType=BIT},
+      settlement_status = #{record.settlementStatus,jdbcType=INTEGER},
+      settlement_date = #{record.settlementDate,jdbcType=TIMESTAMP},
+      settlement_amount = #{record.settlementAmount,jdbcType=DECIMAL},
+      planed_settlement_date = #{record.planedSettlementDate,jdbcType=TIMESTAMP},
+      review_status = #{record.reviewStatus,jdbcType=INTEGER},
+      refund_status = #{record.refundStatus,jdbcType=INTEGER},
+      after_sale_status = #{record.afterSaleStatus,jdbcType=INTEGER},
+      oms_uuid = #{record.omsUuid,jdbcType=VARCHAR},
+      review_date = #{record.reviewDate,jdbcType=TIMESTAMP},
+      review_id = #{record.reviewId,jdbcType=VARCHAR},
+      return_visit_status = #{record.returnVisitStatus,jdbcType=VARCHAR},
+      extend_status = #{record.extendStatus,jdbcType=BIT},
+      extend_type = #{record.extendType,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jeff.template.model.base.Order">
+    update t_order
+    <set>
+      <if test="shardingKey != null">
+        sharding_key = #{shardingKey,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null">
+        channel = #{channel,jdbcType=BIGINT},
+      </if>
+      <if test="plantform != null">
+        plantform = #{plantform,jdbcType=BIGINT},
+      </if>
+      <if test="client != null">
+        client = #{client,jdbcType=BIGINT},
+      </if>
+      <if test="serialNumber != null">
+        serial_number = #{serialNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="marketId != null">
+        market_id = #{marketId,jdbcType=VARCHAR},
+      </if>
+      <if test="marketName != null">
+        market_name = #{marketName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopName != null">
+        shop_name = #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="totalAmount != null">
+        total_amount = #{totalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="promotionTotalAmount != null">
+        promotion_total_amount = #{promotionTotalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="exceptedChangeAmount != null">
+        excepted_change_amount = #{exceptedChangeAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="payableAmount != null">
+        payable_amount = #{payableAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceAmount != null">
+        service_amount = #{serviceAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="paidAmount != null">
+        paid_amount = #{paidAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="refundedAmount != null">
+        refunded_amount = #{refundedAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserName != null">
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateUserId != null">
+        last_update_user_id = #{lastUpdateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateUserName != null">
+        last_update_user_name = #{lastUpdateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateDate != null">
+        last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="areaId != null">
+        area_id = #{areaId,jdbcType=BIGINT},
+      </if>
+      <if test="areaName != null">
+        area_name = #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaserId != null">
+        purchaser_id = #{purchaserId,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaserName != null">
+        purchaser_name = #{purchaserName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null">
+        receiver_id = #{receiverId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverName != null">
+        receiver_name = #{receiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverMobile != null">
+        receiver_mobile = #{receiverMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="carriage != null">
+        carriage = #{carriage,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="referenceId != null">
+        reference_id = #{referenceId,jdbcType=BIGINT},
+      </if>
+      <if test="deliverType != null">
+        deliver_type = #{deliverType,jdbcType=INTEGER},
+      </if>
+      <if test="deliverStatus != null">
+        deliver_status = #{deliverStatus,jdbcType=INTEGER},
+      </if>
+      <if test="refundReason != null">
+        refund_reason = #{refundReason,jdbcType=VARCHAR},
+      </if>
+      <if test="canRefund != null">
+        can_refund = #{canRefund,jdbcType=BIT},
+      </if>
+      <if test="contractNumber != null">
+        contract_number = #{contractNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="serialCode != null">
+        serial_code = #{serialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="serialName != null">
+        serial_name = #{serialName,jdbcType=VARCHAR},
+      </if>
+      <if test="firstPayment != null">
+        first_payment = #{firstPayment,jdbcType=DECIMAL},
+      </if>
+      <if test="agreedDeliveryDate != null">
+        agreed_delivery_date = #{agreedDeliveryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dealerId != null">
+        dealer_id = #{dealerId,jdbcType=VARCHAR},
+      </if>
+      <if test="dealerName != null">
+        dealer_name = #{dealerName,jdbcType=VARCHAR},
+      </if>
+      <if test="realDeliverDate != null">
+        real_deliver_date = #{realDeliverDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realReceivedDate != null">
+        real_received_date = #{realReceivedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="provinceId != null">
+        province_id = #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceName != null">
+        province_name = #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null">
+        city_id = #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null">
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="districtId != null">
+        district_id = #{districtId,jdbcType=VARCHAR},
+      </if>
+      <if test="districtName != null">
+        district_name = #{districtName,jdbcType=VARCHAR},
+      </if>
+      <if test="isStage != null">
+        is_stage = #{isStage,jdbcType=BIT},
+      </if>
+      <if test="settlementStatus != null">
+        settlement_status = #{settlementStatus,jdbcType=INTEGER},
+      </if>
+      <if test="settlementDate != null">
+        settlement_date = #{settlementDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="settlementAmount != null">
+        settlement_amount = #{settlementAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="planedSettlementDate != null">
+        planed_settlement_date = #{planedSettlementDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reviewStatus != null">
+        review_status = #{reviewStatus,jdbcType=INTEGER},
+      </if>
+      <if test="refundStatus != null">
+        refund_status = #{refundStatus,jdbcType=INTEGER},
+      </if>
+      <if test="afterSaleStatus != null">
+        after_sale_status = #{afterSaleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="omsUuid != null">
+        oms_uuid = #{omsUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewDate != null">
+        review_date = #{reviewDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reviewId != null">
+        review_id = #{reviewId,jdbcType=VARCHAR},
+      </if>
+      <if test="returnVisitStatus != null">
+        return_visit_status = #{returnVisitStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="extendStatus != null">
+        extend_status = #{extendStatus,jdbcType=BIT},
+      </if>
+      <if test="extendType != null">
+        extend_type = #{extendType,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jeff.template.model.base.Order">
+    update t_order
+    set sharding_key = #{shardingKey,jdbcType=VARCHAR},
+      channel = #{channel,jdbcType=BIGINT},
+      plantform = #{plantform,jdbcType=BIGINT},
+      client = #{client,jdbcType=BIGINT},
+      serial_number = #{serialNumber,jdbcType=VARCHAR},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      order_type = #{orderType,jdbcType=INTEGER},
+      market_id = #{marketId,jdbcType=VARCHAR},
+      market_name = #{marketName,jdbcType=VARCHAR},
+      shop_id = #{shopId,jdbcType=VARCHAR},
+      shop_name = #{shopName,jdbcType=VARCHAR},
+      total_amount = #{totalAmount,jdbcType=DECIMAL},
+      promotion_total_amount = #{promotionTotalAmount,jdbcType=DECIMAL},
+      excepted_change_amount = #{exceptedChangeAmount,jdbcType=DECIMAL},
+      payable_amount = #{payableAmount,jdbcType=DECIMAL},
+      service_amount = #{serviceAmount,jdbcType=DECIMAL},
+      paid_amount = #{paidAmount,jdbcType=DECIMAL},
+      refunded_amount = #{refundedAmount,jdbcType=DECIMAL},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      last_update_user_id = #{lastUpdateUserId,jdbcType=VARCHAR},
+      last_update_user_name = #{lastUpdateUserName,jdbcType=VARCHAR},
+      last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP},
+      area_id = #{areaId,jdbcType=BIGINT},
+      area_name = #{areaName,jdbcType=VARCHAR},
+      purchaser_id = #{purchaserId,jdbcType=VARCHAR},
+      purchaser_name = #{purchaserName,jdbcType=VARCHAR},
+      receiver_id = #{receiverId,jdbcType=VARCHAR},
+      receiver_name = #{receiverName,jdbcType=VARCHAR},
+      receiver_mobile = #{receiverMobile,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      carriage = #{carriage,jdbcType=DECIMAL},
+      remark = #{remark,jdbcType=VARCHAR},
+      delete_flag = #{deleteFlag,jdbcType=BIT},
+      reference_id = #{referenceId,jdbcType=BIGINT},
+      deliver_type = #{deliverType,jdbcType=INTEGER},
+      deliver_status = #{deliverStatus,jdbcType=INTEGER},
+      refund_reason = #{refundReason,jdbcType=VARCHAR},
+      can_refund = #{canRefund,jdbcType=BIT},
+      contract_number = #{contractNumber,jdbcType=VARCHAR},
+      serial_code = #{serialCode,jdbcType=VARCHAR},
+      serial_name = #{serialName,jdbcType=VARCHAR},
+      first_payment = #{firstPayment,jdbcType=DECIMAL},
+      agreed_delivery_date = #{agreedDeliveryDate,jdbcType=TIMESTAMP},
+      dealer_id = #{dealerId,jdbcType=VARCHAR},
+      dealer_name = #{dealerName,jdbcType=VARCHAR},
+      real_deliver_date = #{realDeliverDate,jdbcType=TIMESTAMP},
+      real_received_date = #{realReceivedDate,jdbcType=TIMESTAMP},
+      province_id = #{provinceId,jdbcType=VARCHAR},
+      province_name = #{provinceName,jdbcType=VARCHAR},
+      city_id = #{cityId,jdbcType=VARCHAR},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      district_id = #{districtId,jdbcType=VARCHAR},
+      district_name = #{districtName,jdbcType=VARCHAR},
+      is_stage = #{isStage,jdbcType=BIT},
+      settlement_status = #{settlementStatus,jdbcType=INTEGER},
+      settlement_date = #{settlementDate,jdbcType=TIMESTAMP},
+      settlement_amount = #{settlementAmount,jdbcType=DECIMAL},
+      planed_settlement_date = #{planedSettlementDate,jdbcType=TIMESTAMP},
+      review_status = #{reviewStatus,jdbcType=INTEGER},
+      refund_status = #{refundStatus,jdbcType=INTEGER},
+      after_sale_status = #{afterSaleStatus,jdbcType=INTEGER},
+      oms_uuid = #{omsUuid,jdbcType=VARCHAR},
+      review_date = #{reviewDate,jdbcType=TIMESTAMP},
+      review_id = #{reviewId,jdbcType=VARCHAR},
+      return_visit_status = #{returnVisitStatus,jdbcType=VARCHAR},
+      extend_status = #{extendStatus,jdbcType=BIT},
+      extend_type = #{extendType,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
