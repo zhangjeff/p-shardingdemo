@@ -19,6 +19,7 @@ public class UserServiceTest extends BaseTest {
 	public void userInsertTest() {
 		User user = new User();
 		user.setUserId(1111);
+		user.setId(222);
 		user.setUserName("张三");
 		user.setCreateDate(new Date());
 		userService.insert(user);
