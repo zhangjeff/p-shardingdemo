@@ -53,7 +53,7 @@ public class TemplateController {
         order.setMarketId("11111");
         order.setShopId("99999");
         order.setShardingKey(order.getMarketId() + "-" + order.getShopId());
-        order.setId(1234671L);
+        order.setId(1234636L);
         int i = orderService.insertOrder(order);
         return "insertOrder" + i;
     }
