@@ -52,7 +52,7 @@ public class TemplateController {
         order.setSerialNumber(UUID.randomUUID().toString());
         order.setMarketId("11111");
         order.setShopId("99999");
-        order.setChannel(222L);
+        order.setChannel(221L);
         order.setShardingKey(order.getMarketId() + "-" + order.getShopId());
 //        order.setId(1234639L);
         int i = orderService.insertOrder(order);
