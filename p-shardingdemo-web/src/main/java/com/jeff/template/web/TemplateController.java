@@ -52,9 +52,17 @@ public class TemplateController {
         order.setSerialNumber(UUID.randomUUID().toString());
         order.setMarketId("11111");
         order.setShopId("99999");
+        order.setChannel(222L);
         order.setShardingKey(order.getMarketId() + "-" + order.getShopId());
-        order.setId(1234636L);
+//        order.setId(1234639L);
         int i = orderService.insertOrder(order);
         return "insertOrder" + i;
+    }
+
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.GET ,value = "/order/search")
+    public List searchOrder() {
+        List<Order> orderList = orderService.listOrder();
+        return orderList;
     }
 }
