@@ -5,6 +5,7 @@ import com.jeff.template.api.IOrderService;
 import com.jeff.template.api.IUserService;
 import com.jeff.template.model.base.Order;
 import com.jeff.template.model.base.User;
+import io.shardingjdbc.core.api.HintManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -62,6 +63,9 @@ public class TemplateController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET ,value = "/order/search")
     public List searchOrder() {
+        HintManager hintManager = HintManager.getInstance();
+//        hintManager.isMasterRouteOnly();
+        hintManager.setMasterRouteOnly();
         List<Order> orderList = orderService.listOrder();
         return orderList;
     }

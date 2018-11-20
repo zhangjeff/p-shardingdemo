@@ -3,6 +3,7 @@ package com.jeff.template.service;
 import com.jeff.template.api.IOrderService;
 import com.jeff.template.mapper.base.OrderMapper;
 import com.jeff.template.model.base.Order;
+import io.shardingjdbc.core.api.HintManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
