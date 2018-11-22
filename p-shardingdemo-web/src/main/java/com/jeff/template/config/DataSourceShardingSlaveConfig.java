@@ -96,8 +96,8 @@ public class DataSourceShardingSlaveConfig {
         shardingRuleConfig.getMasterSlaveRuleConfigs().add(masterSlaveRuleConfig1);
 
         shardingRuleConfig.getBindingTableGroups().add(SHARDING_TABELS + "," + INDEP_TABELS);
-        shardingRuleConfig.setDefaultDatabaseShardingStrategyConfig(new StandardShardingStrategyConfiguration("channel", PreciseDatabaseShardingAlgorithm.class.getName()));
-        shardingRuleConfig.setDefaultTableShardingStrategyConfig(new StandardShardingStrategyConfiguration("channel", PreciseTableShardingAlgorithm.class.getName()));
+//        shardingRuleConfig.setDefaultDatabaseShardingStrategyConfig(new StandardShardingStrategyConfiguration("channel", PreciseDatabaseShardingAlgorithm.class.getName()));
+//        shardingRuleConfig.setDefaultTableShardingStrategyConfig(new StandardShardingStrategyConfiguration("channel", PreciseTableShardingAlgorithm.class.getName()));
 
 
         Properties props = new Properties();
@@ -130,16 +130,16 @@ public class DataSourceShardingSlaveConfig {
             table.setActualDataNodes("tx_order_${0..1}." + s + "_${[0, 1]}");
             table.setDatabaseShardingStrategyConfig(new StandardShardingStrategyConfiguration("channel", PreciseDatabaseShardingAlgorithm.class.getName()));
             table.setTableShardingStrategyConfig(new StandardShardingStrategyConfiguration("channel", PreciseTableShardingAlgorithm.class.getName()));
-            if (!"t_order".equals(s)) {
-                table.setKeyGeneratorColumnName("id");
-            }
+//            if (!"t_order".equals(s)) {
+//                table.setKeyGeneratorColumnName("id");
+//            }
             tableRuleConfigurations.add(table);
         }
         for (String s : INDEP_TABELS.split(",")) {
             TableRuleConfiguration table = new TableRuleConfiguration();
             table.setLogicTable(s);
             table.setActualDataNodes("tx_order_${0}." + s + "_${[0]}");
-            table.setKeyGeneratorColumnName("id");
+//            table.setKeyGeneratorColumnName("id");
             tableRuleConfigurations.add(table);
         }
 
@@ -147,6 +147,6 @@ public class DataSourceShardingSlaveConfig {
         return tableRuleConfigurations;
     }
 
-    private static final String SHARDING_TABELS = "t_order,t_order_item";
-    private static final String INDEP_TABELS = "t_cancel_payment_log";
+    private static final String SHARDING_TABELS = "t_cancel_payment_log,t_order_item";
+    private static final String INDEP_TABELS = "t_order";
 }
