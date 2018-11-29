@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:sharding="http://shardingsphere.io/schema/shardingsphere/sharding"
+	   xmlns:master-slave="http://shardingsphere.io/schema/shardingsphere/masterslave"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/tx
+                        http://www.springframework.org/schema/tx/spring-tx.xsd
+                        http://shardingsphere.io/schema/shardingsphere/sharding
+                        http://shardingsphere.io/schema/shardingsphere/sharding/sharding.xsd
+                        http://shardingsphere.io/schema/shardingsphere/masterslave
+                        http://shardingsphere.io/schema/shardingsphere/masterslave/master-slave.xsd">
+
+
+	<bean id="ds_master0" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/demo_ds_master_0?useSSL=false" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
+
+	<bean id="ds_master0_slave0" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/demo_ds_master_0_slave_0?useSSL=false" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
+
+
+	<bean id="ds_master1" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/demo_ds_master_1?useSSL=false" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
+
+	<bean id="ds_master1_slave0" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/demo_ds_master_1_slave_0?useSSL=false" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
+
+
+	<bean id="randomStrategy" class="io.shardingsphere.core.api.algorithm.masterslave.RandomMasterSlaveLoadBalanceAlgorithm" />
+
+	<master-slave:data-source id="ds_ms0" master-data-source-name="ds_master0" slave-data-source-names="ds_master0_slave0" strategy-ref="randomStrategy" />
+	<master-slave:data-source id="ds_ms1" master-data-source-name="ds_master1" slave-data-source-names="ds_master1_slave0" strategy-ref="randomStrategy" />
+
+	<sharding:inline-strategy id="databaseStrategy" sharding-column="channel" algorithm-expression="ds_ms$->{channel % 2}" />
+	<sharding:inline-strategy id="orderTableStrategy" sharding-column="channel" algorithm-expression="t_order_$->{channel % 2}" />
+
+	<sharding:data-source id="shardingDataSource">
+		<sharding:sharding-rule data-source-names="ds_ms0,ds_ms1">
+			<sharding:table-rules>
+				<sharding:table-rule logic-table="t_order" actual-data-nodes="ds_ms$->{0..1}.t_order_$->{0..1}" database-strategy-ref="databaseStrategy" table-strategy-ref="orderTableStrategy"  />
+			</sharding:table-rules>
+			<sharding:binding-table-rules>
+				<sharding:binding-table-rule logic-tables="t_order" />
+			</sharding:binding-table-rules>
+		</sharding:sharding-rule>
+		<sharding:props>
+			<prop key="sql.show">true</prop>
+		</sharding:props>
+	</sharding:data-source>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="shardingDataSource" />
+		<property name="mapperLocations">
+			<array>
+				<value>classpath*:sqlmapper/**/*.xml</value>
+			</array>
+		</property>
+		<property name="typeAliasesPackage" value="com.jeff.template.model.base" />
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer" lazy-init="true">
+		<property name="basePackage" value="com.jeff.template.mapper" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+
+</beans>

@@ -5,13 +5,10 @@ import com.jeff.template.api.IOrderService;
 import com.jeff.template.api.IUserService;
 import com.jeff.template.model.base.Order;
 import com.jeff.template.model.base.User;
-import io.shardingjdbc.core.api.HintManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
@@ -53,7 +50,7 @@ public class TemplateController {
         order.setSerialNumber(UUID.randomUUID().toString());
         order.setMarketId("11111");
         order.setShopId("99999");
-        order.setChannel(221L);
+        order.setChannel(226L);
         order.setShardingKey(order.getMarketId() + "-" + order.getShopId());
 //        order.setId(1234639L);
         int i = orderService.insertOrder(order);
@@ -63,9 +60,9 @@ public class TemplateController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET ,value = "/order/search")
     public List searchOrder() {
-        HintManager hintManager = HintManager.getInstance();
+//        HintManager hintManager = HintManager.getInstance();
 //        hintManager.isMasterRouteOnly();
-        hintManager.setMasterRouteOnly();
+//        hintManager.setMasterRouteOnly();
         List<Order> orderList = orderService.listOrder();
         return orderList;
     }
